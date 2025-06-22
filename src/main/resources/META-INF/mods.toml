@@ -1,0 +1,16 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "mendingmirror"
+version = "${version}"
+displayName = "MendingMirror"
+authors = "Kall, Greygod"
+description = '''
+Adds a treasure enchantment that prevents item loss. When enchanted gear breaks,
+it enters stasis and reappears after sleeping - restored to 30% durability but
+loses the enchantment. Incompatible with Mending.
+'''
+#logoFile = ""

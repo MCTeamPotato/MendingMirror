@@ -1,0 +1,60 @@
+plugins {
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT'
+}
+
+group = project.maven_group
+version = project.minecraft_version + "-" + project.mod_version
+
+base {
+    archivesName = project.archives_name
+}
+
+loom {
+    silentMojangMappingsLicense()
+
+    forge {
+        mixinConfig 'mendingmirror.mixins.json'
+    }
+}
+
+repositories {
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$project.minecraft_version"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+    }
+    forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: project.version
+    }
+}
+
+java {
+    if (version.startsWith("1.16.5")) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    } else {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (version.startsWith("1.16.5")) {
+        it.options.release = 8
+    } else {
+        it.options.release = 17
+    }
+}
