@@ -17,7 +17,7 @@ public class BrokenItemsData extends SavedData {
         super();
     }
 
-    public static BrokenItemsData get(@NotNull ServerLevel level) {
+    public static @NotNull BrokenItemsData get(@NotNull ServerLevel level) {
         return level.getDataStorage().computeIfAbsent(BrokenItemsData::load, BrokenItemsData::new, MendingMirror.MOD_ID + "_data");
     }
 
@@ -30,13 +30,13 @@ public class BrokenItemsData extends SavedData {
         return brokenItems.remove(player);
     }
 
-    public static BrokenItemsData load(CompoundTag tag) {
+    public static @NotNull BrokenItemsData load(CompoundTag tag) {
         BrokenItemsData data = new BrokenItemsData();
         data.loadData(tag);
         return data;
     }
 
-    private void loadData(CompoundTag tag) {
+    private void loadData(@NotNull CompoundTag tag) {
         brokenItems.clear();
         ListTag entries = tag.getList("entries", Tag.TAG_COMPOUND);
 
@@ -54,7 +54,7 @@ public class BrokenItemsData extends SavedData {
     }
 
     @Override
-    public CompoundTag save(@NotNull CompoundTag compoundTag) {
+    public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag) {
         ListTag entries = new ListTag();
         brokenItems.forEach((uuid, compoundTags) -> {
             CompoundTag entryNBT = new CompoundTag();

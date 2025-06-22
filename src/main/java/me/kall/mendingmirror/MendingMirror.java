@@ -28,6 +28,7 @@ public final class MendingMirror {
 
     public static final RegistryObject<Enchantment> MENDING_MIRROR = ENCHANTMENTS.register("mending_mirror", MendingMirrorEnchantment::new);
 
+    @SuppressWarnings("all")
     public MendingMirror() {
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerWakeUp);
         ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -61,7 +62,7 @@ public final class MendingMirror {
     }
 
     public void onPlayerWakeUp(@NotNull PlayerWakeUpEvent event) {
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
         UUID playerId = player.getUUID();
 
         if (!(player.level instanceof ServerLevel level)) return;
