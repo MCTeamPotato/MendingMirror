@@ -41,7 +41,7 @@ public final class MendingMirror {
     }
 
     public static void recordBrokenItem(@NotNull Entity entity, @NotNull ItemStack stack) {
-        if (!(entity.level instanceof ServerLevel level)) return;
+        if (!(entity.level() instanceof ServerLevel level)) return;
         BrokenItemsData data = BrokenItemsData.get(level);
 
         UUID playerId = entity.getUUID();
@@ -71,7 +71,7 @@ public final class MendingMirror {
         Player player = event.getEntity();
         UUID playerId = player.getUUID();
 
-        if (!(player.level instanceof ServerLevel level)) return;
+        if (!(player.level() instanceof ServerLevel level)) return;
         BrokenItemsData data = BrokenItemsData.get(level);
 
         Set<CompoundTag> recovered = data.removeData(playerId);
