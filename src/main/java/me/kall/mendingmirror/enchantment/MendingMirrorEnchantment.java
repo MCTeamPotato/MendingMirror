@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.MendingEnchantment;
+import org.jetbrains.annotations.NotNull;
 
 public class MendingMirrorEnchantment extends Enchantment {
     public MendingMirrorEnchantment() {
@@ -22,7 +23,7 @@ public class MendingMirrorEnchantment extends Enchantment {
     }
 
     @Override
-    protected boolean checkCompatibility(Enchantment other) {
+    protected boolean checkCompatibility(@NotNull Enchantment other) {
         return !(other instanceof MendingEnchantment) && super.checkCompatibility(other);
     }
 }

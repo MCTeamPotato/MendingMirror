@@ -5,7 +5,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.common.util.Constants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -15,11 +14,11 @@ public class BrokenItemsData extends SavedData {
     private final Map<UUID, Set<CompoundTag>> brokenItems = new HashMap<>();
 
     public BrokenItemsData() {
-        super(MendingMirror.MOD_ID + "_data");
+        super();
     }
 
     public static BrokenItemsData get(@NotNull ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(BrokenItemsData::new, MendingMirror.MOD_ID + "_data");
+        return level.getDataStorage().computeIfAbsent(BrokenItemsData::load, BrokenItemsData::new, MendingMirror.MOD_ID + "_data");
     }
 
     public void addData(UUID player, CompoundTag item) {
@@ -31,17 +30,24 @@ public class BrokenItemsData extends SavedData {
         return brokenItems.remove(player);
     }
 
-    @Override
-    public void load(@NotNull CompoundTag tag) {
+    public static BrokenItemsData load(CompoundTag tag) {
+        BrokenItemsData data = new BrokenItemsData();
+        data.loadData(tag);
+        return data;
+    }
+
+    private void loadData(CompoundTag tag) {
         brokenItems.clear();
-        ListTag entries = tag.getList("entries", Constants.NBT.TAG_COMPOUND);
+        ListTag entries = tag.getList("entries", Tag.TAG_COMPOUND);
 
         for (Tag entry : entries) {
             CompoundTag entryNBT = (CompoundTag) entry;
             UUID uuid = entryNBT.getUUID("player");
-            ListTag tagList = entryNBT.getList("items", Constants.NBT.TAG_COMPOUND);
+            ListTag tagList = entryNBT.getList("items", Tag.TAG_COMPOUND);
 
-            Set<CompoundTag> tags = tagList.stream().map(CompoundTag.class::cast).collect(Collectors.toSet());
+            Set<CompoundTag> tags = tagList.stream()
+                    .map(CompoundTag.class::cast)
+                    .collect(Collectors.toSet());
 
             brokenItems.put(uuid, tags);
         }

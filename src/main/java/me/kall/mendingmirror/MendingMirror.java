@@ -10,11 +10,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -34,8 +34,7 @@ public final class MendingMirror {
     }
 
     public static void recordBrokenItem(@NotNull Entity entity, @NotNull ItemStack stack) {
-        if (!(entity.level instanceof ServerLevel)) return;
-        ServerLevel level = (ServerLevel) entity.level;
+        if (!(entity.level instanceof ServerLevel level)) return;
         BrokenItemsData data = BrokenItemsData.get(level);
 
         UUID playerId = entity.getUUID();
@@ -65,8 +64,7 @@ public final class MendingMirror {
         Player player = event.getPlayer();
         UUID playerId = player.getUUID();
 
-        if (!(player.level instanceof ServerLevel)) return;
-        ServerLevel level = (ServerLevel) player.level;
+        if (!(player.level instanceof ServerLevel level)) return;
         BrokenItemsData data = BrokenItemsData.get(level);
 
         Set<CompoundTag> recovered = data.removeData(playerId);
