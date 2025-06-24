@@ -27,6 +27,7 @@ public class BrokenItemsData extends SavedData {
     }
 
     public Set<CompoundTag> removeData(UUID player) {
+        setDirty();
         return brokenItems.remove(player);
     }
 
